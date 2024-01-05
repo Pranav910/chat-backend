@@ -3,6 +3,8 @@ const app = express()
 const http = require('http')
 const socketIO = require('socket.io')
 const PORT = 8080
+const cors = require('cors')
+app.use(cors())
 
 const server = http.createServer(app)
 const io = socketIO(server, {cors: {
@@ -12,7 +14,7 @@ const io = socketIO(server, {cors: {
   }})
 
 app.get('/', (req, res) => {
-    res.status(200).send('this is home route')
+    res.status(200).json({message : 'this is home route'})
 })
 
 io.on('connection', (socket) => {
