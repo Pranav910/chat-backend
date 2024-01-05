@@ -7,39 +7,41 @@ const cors = require('cors')
 app.use(cors())
 
 const server = http.createServer(app)
-const io = socketIO(server, {cors: {
-    origin: "https://chat-client-khaki.vercel.app",
-    methods: ["GET", "POST"],
-    credentials: true
-  }})
+const io = socketIO(server, {
+    cors: {
+        origin: "https://chat-client-khaki.vercel.app",
+        methods: ["GET", "POST"],
+        credentials: true
+    }
+})
 
 app.get('/', (req, res) => {
-    res.status(200).json({message : 'this is home route'})
+    res.status(200).json({ message: 'this is home route' })
 })
 
 io.on('connection', (socket) => {
     console.log(`${socket.id} connected`)
 
-    socket.on('joined', ({socketid})=>{
+    socket.on('joined', ({ socketid }) => {
         console.log(`${socketid} joined`)
     })
 
-    socket.on('sentmsg', ({id, message}) => {
-        io.emit('recievedmsg', {id, message})
+    socket.on('sentmsg', ({ id, message }) => {
+        io.emit('recievedmsg', { id, message })
     })
 
-    socket.on('dissconnect', ()=>{
+    socket.on('dissconnect', () => {
         console.log('user left')
     })
 
-    socket.on('joinroom', ({room}) => {
+    socket.on('joinroom', ({ room }) => {
         console.log(room)
         socket.join(room)
     })
 
-    socket.on('sendmsgtoroom', ({id, message}) => {
+    socket.on('sendmsgtoroom', ({ id, message }) => {
         console.log(message)
-        io.to('testroom').emit('recieveroommsg', {id, message})
+        io.to('testroom').emit('recieveroommsg', { id, message })
     })
 })
 
