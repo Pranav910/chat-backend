@@ -12,7 +12,7 @@ const io = socketIO(server, {cors: {
   }})
 
 app.get('/', (req, res) => {
-    res.send('this is home route')
+    res.status(200).send('this is home route')
 })
 
 io.on('connection', (socket) => {
