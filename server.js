@@ -5,11 +5,11 @@ const socketIO = require('socket.io')
 const PORT = 8080
 
 const server = http.createServer(app)
-const io = socketIO(server, cors: {
+const io = socketIO(server, {cors: {
     origin: "https://chat-client-khaki.vercel.app",
     methods: ["GET", "POST"],
     credentials: true
-  })
+  }})
 
 app.get('/', (req, res) => {
     res.send('this is home route')
